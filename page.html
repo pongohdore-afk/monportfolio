@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE GRAPHIST - Portfolio Design Graphique | Stage Capsule Media</title>
+<meta name="description" content="Portfolio de Junior - Designer graphique | Stage chez Capsule Media Consulting - visuels marketing et réseaux sociaux">
+<meta name="keywords" content="design graphique, portfolio, Capsule Media, réseaux sociaux, Cameroun">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- AOS Animations -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    scroll-behavior: smooth;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    background-attachment: fixed;
+    position: relative;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.15) 0%, transparent 50%);
+    background-size: 400px 400px, 600px 600px, 500px 500px;
+    animation: bgShift 20s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes bgShift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, 30px) scale(1.1); }
+    100% { transform: translate(-30px, 50px) scale(1.05); }
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='40' cy='40' r='1'/%3E%3Ccircle cx='20' cy='20' r='0.5'/%3E%3Ccircle cx='60' cy='60' r='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 80px 80px;
+    animation: starsFloat 25s linear infinite;
+    z-index: -1;
+}
+
+@keyframes starsFloat {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+/* Amélioration lisibilité texte sur fond futuriste */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+}
+
+p, .lead, .nav-link, .btn {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.card, .glass {
+    background: rgba(255,255,255,0.95) !important;
+    color: #333 !important;
+}
+
+.bg-primary, .btn-primary {
+    --bs-btn-bg: linear-gradient(45deg, #667eea, #764ba2) !important;
+}
+
+.navbar {
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.navbar.scrolled {
+    background: rgba(0,0,0,0.95);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
+}
+
+.navbar.scrolled {
+    background: rgba(0,0,0,0.9);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hero Gradient */
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+}
+
+/* Profile Image */
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    margin-bottom: 2rem;
+}
+
+/* Cards Hover */
+.card {
+    transition: all 0.4s ease;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.project img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* Progress Bars */
+.progress {
+    height: 10px;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 2s ease;
+}
+
+/* Buttons */
+.btn-custom {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+    color: white;
+}
+
+/* Stats Counters */
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+}
+
+/* Gallery Styles */
+.gallery-thumb {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gallery-thumb:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<div class="container">
+<a class="navbar-brand" href="#">THE GRAPHIST</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#about">À propos</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#projects">Projets</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#contact">Contact</a>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero text-center" data-aos="fade-up" data-aos-duration="1000">
+<div class="container">
+    
+    <!-- Profile Image -->
+    <img src="./photo perso/WhatsApp Image 2026-04-12 at 14.44.41.jpeg" 
+         alt="Junior - Designer Graphique" class="profile-img" data-aos="zoom-in" data-aos-delay="200">
+    
+    <h1 class="display-4 fw-bold mb-4" data-aos="fade-down" data-aos-delay="500">NGANG PONGOH PHILIPPE EMMANUEL</h1>
+    
+    <p class="h2 fw-bold mb-2" data-aos="fade-up" data-aos-delay="600">Designer Graphique Freelance</p>
+    <p class="lead fs-4 mb-5 px-4" data-aos="fade-up" data-aos-delay="700">
+        📍 Étudiant Camerounais - Institut Universitaire de technologie de DOUALA
+    </p>
+
+    <div data-aos="fade-up" data-aos-delay="900">
+        <a href="#projects" class="btn btn-light btn-lg me-3 px-5">
+            👁️ Voir mes projets
+        </a>
+        <a href="#contact" class="btn btn-outline-light btn-lg px-5">
+            📩 Contact
+        </a>
+    </div>
+
+</div>
+</section>
+
+<!-- STATS COUNTERS -->
+<section id="stats" class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3" data-aos="fade-up">
+                <div class="stat-number" data-target="50">0</div>
+                <h5>Projets Réalisés</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-target="2">0</div>
+                <h5>Années d'Expérience</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number" data-target="15">0</div>
+                <h5>Clients Satisfaits</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="600">
+                <div class="stat-number" data-target="1000">0</div>
+                <h5>Heures de Design</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT ENHANCED -->
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&fit=crop" 
+                     alt="Junior au travail" class="img-fluid rounded shadow" style="height: 400px; object-fit: cover;">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2>À propos de moi</h2>
+                <p class="lead">
+                    Étudiant passionné par le <strong>design graphique</strong> et le marketing digital basé au Cameroun.
+                </p>
+                <p>
+                    J'ai effectué un stage chez <strong>Capsule Media Consulting</strong> où j'ai créé des visuels impactants pour les campagnes marketing, 
+                    les réseaux sociaux et l'identité visuelle des entreprises. Mon objectif : transformer vos idées en visuels qui convertissent !
+                </p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-primary me-2"></i>Spécialiste réseaux sociaux</li>
+                    <li><i class="fas fa-check text-primary me-2"></i>Flyers & affiches marketing</li>
+
+                </ul>
+                <a href="#contact" class="btn btn-custom btn-lg mt-3">Travaillons ensemble !</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="py-5 bg-gradient" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Mes Compétences</h2>
+        
+<!-- SVG Animated Skills -->
+<style>
+.skill-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(#dc3545 var(--p, 0%), transparent 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+.skill-circle::after {
+  content: '';
+  width: 110px;
+  height: 110px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+}
+.skill-circle span {
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.skill-ring {
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 2s ease;
+  fill: none;
+  stroke-width: 8;
+}
+.animate-ring {
+  stroke-dashoffset: 0;
+}
+</style>
+
+        <div class="row g-4">
+            <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                <svg class="skill-circle-svg" viewBox="0 0 100 100">
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#dc3545"/>
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#ffc107" stroke-dashoffset="63"/>
+                </svg>
+                <h5><i class="fab fa-photoshop text-danger me-2"></i>Photoshop</h5>
+                <span class="badge bg-danger">90%</span>
+            </div>
+            
+            <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="200">
+                <svg class="skill-circle-svg" viewBox="0 0 100 100">
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#17a2b8"/>
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#ffc107" stroke-dashoffset="100.8"/>
+                </svg>
+                <h5><i class="fab fa-adobe text-info me-2"></i>Illustrator</h5>
+                <span class="badge bg-info">80%</span>
+            </div>
+        </div>
+
+        <script>
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const rings = entry.target.querySelectorAll('.skill-ring');
+                rings.forEach((ring, index) => {
+                  setTimeout(() => ring.classList.add('animate-ring'), index * 200);
+                });
+              }
+            });
+          });
+          document.querySelectorAll('.col-lg-6.text-center').forEach(col => observer.observe(col));
+        </script>
+    </div>
+</section>
+
+
+<!-- SERVICES -->
+<section id="services" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Mes Services</h2>
+        
+        <div class="row g-4">
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-palette fa-3x text-primary mb-3"></i>
+                        <h5>Design Graphique</h5>
+                        <p>Création de flyers, affiches pour vos business</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-share-alt fa-3x text-success mb-3"></i>
+                        <h5>Visuels Réseaux Sociaux</h5>
+                        <p>Posts Instagram, Facebook optimisés</p>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Masonry + Lightbox Gallery -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css?v=5.0">
+<script src="https://cdn.jsdelivr.net/npm/isotope-layout@3.0.6/dist/isotope.pkgd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<style>
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+.portfolio-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+.portfolio-item:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+}
+.portfolio-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.portfolio-item:hover .portfolio-img {
+  transform: scale(1.1);
+}
+.portfolio-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(102,126,234,0.9), rgba(118,75,162,0.9));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portfolio-item:hover .portfolio-overlay {
+  opacity: 1;
+}
+.portfolio-title {
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+.filter-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 25px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-btn.active, .filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+}
+</style>
+
+        <div class="filters mb-5 text-center">
+          <button class="filter-btn active" data-filter="*">Tout</button>
+          <button class="filter-btn" data-filter=".facebook">Facebook</button>
+          <button class="filter-btn" data-filter=".instagram">Instagram</button>
+          <button class="filter-btn" data-filter=".linkedin">LinkedIn</button>
+          <button class="filter-btn" data-filter=".flyers">Flyers</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid">
+          <!-- Facebook -->
+          <div class="portfolio-item facebook">
+            <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png" class="portfolio-img" data-fancybox="gallery" data-caption="Flyer Corporate Bleu Jaune">
+            <div class="portfolio-overlay">
+              <h5 class="portfolio-title">Flyer Corporate</h5>
+            </div>
+          </div>
+          <div class="portfolio-item facebook">
+            <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="portfolio-img" data-fancybox="gallery" data-caption="Flyer Marketing Jaune Bleu Blanc">
+            <div class="portfolio-overlay">
+              <h5 class="portfolio-title">Marketing Flyer</h5>
+            </div>
+          </div>
+          <!-- Add more items similarly for all images -->
+        </div>
+
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+  // Masonry Layout
+  var $grid = $('#portfolioGrid').isotope({
+    itemSelector: '.portfolio-item',
+    layoutMode: 'masonry',
+    masonry: {
+      columnWidth: '.portfolio-item',
+      gutter: 20
+    }
+  });
+
+  // Filter buttons
+  $('.filter-btn').on('click', function() {
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+    var filterValue = $(this).attr('data-filter');
+    $grid.isotope({ filter: filterValue });
+  });
+
+  // Fancybox init
+  Fancybox.bind('[data-fancybox]', {});
+});
+</script>
+
+    <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+<h2>Mes Différents Projets</h2>
+        </div>
+
+        <!-- Portfolio Tabs -->
+        <ul class="nav nav-pills nav-fill mb-4 justify-content-center" id="projectTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="facebook-tab" data-bs-toggle="pill" data-bs-target="#facebook" type="button" role="tab">📘 Visuels Facebook</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="instagram-tab" data-bs-toggle="pill" data-bs-target="#instagram" type="button" role="tab">📷 Visuels Instagram</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="linkedin-tab" data-bs-toggle="pill" data-bs-target="#linkedin" type="button" role="tab">💼 Posts LinkedIn</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="evenement-tab" data-bs-toggle="pill" data-bs-target="#evenement" type="button" role="tab">🎉 Affiches Événement</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="flyers-tab" data-bs-toggle="pill" data-bs-target="#flyers" type="button" role="tab">📄 Flyers Promotionnels</button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="projectTabContent">
+          <!-- Visuels Facebook -->
+          <div class="tab-pane fade show active" id="facebook" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 1" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 2" onclick="openImage('./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 3" onclick="openImage('./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 4" onclick="openImage('./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png2.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 5" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png2.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Visuels Instagram -->
+          <div class="tab-pane fade" id="instagram" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum Chanel.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 1" onclick="openImage('./dossier visuels instagram/parfum Chanel.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum png.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 2" onclick="openImage('./dossier visuels instagram/parfum png.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/sac1.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 3" onclick="openImage('./dossier visuels instagram/sac1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel shake.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 4" onclick="openImage('./dossier visuels instagram/visuel shake.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel PORSCHE.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 5" onclick="openImage('./dossier visuels instagram/visuel PORSCHE.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/vsuel casque-1.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 6" onclick="openImage('./dossier visuels instagram/vsuel casque-1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel NIKE.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 7" onclick="openImage('./dossier visuels instagram/visuel NIKE.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/Sans titre-1.png2.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 8" onclick="openImage('./dossier visuels instagram/Sans titre-1.png2.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Posts LinkedIn -->
+          <div class="tab-pane fade" id="linkedin" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow and Black Modern Digital Marketing Agency Instagram Post.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 1" onclick="openImage('./dossiers visuels capsule media/Yellow and Black Modern Digital Marketing Agency Instagram Post.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and White Modern Plumbing Company Services Instagram Post .png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 2" onclick="openImage('./dossiers visuels capsule media/Blue and White Modern Plumbing Company Services Instagram Post .png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Red Modern Business Agency Instagram Story.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 3" onclick="openImage('./dossiers visuels capsule media/Red Modern Business Agency Instagram Story.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 4" onclick="openImage('./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Affiches Événement -->
+          <div class="tab-pane fade" id="evenement" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum Chanel.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 1" onclick="openImage('./dossier visuels instagram/parfum Chanel.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/sac1.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 2" onclick="openImage('./dossier visuels instagram/sac1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/vsuel casque-1.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 3" onclick="openImage('./dossier visuels instagram/vsuel casque-1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Flyers Promotionnels -->
+          <div class="tab-pane fade" id="flyers" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 1" onclick="openImage('./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 2" onclick="openImage('./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow and Blue Modern Cleaning Services Poster.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 3" onclick="openImage('./dossiers visuels capsule media/Yellow and Blue Modern Cleaning Services Poster.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Modern Cleaning Service Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 4" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Modern Cleaning Service Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue And White Modern Cleaning Service Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 5" onclick="openImage('./dossiers visuels capsule media/Blue And White Modern Cleaning Service Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience" class="py-5" style="background: rgba(255,255,255,0.98);">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold" data-aos="fade-up" style="color: #333; text-shadow: none;">Mon Parcours</h2>
+        <div class="timeline position-relative" data-aos="fade-up" style="padding-left: 40px;">
+            <div class="timeline-item mb-5 p-4 glass rounded" style="background: rgba(255,255,255,0.9); color: #333;">
+                <div class="row align-items-center">
+<div class="col-md-12 text-center mb-4">
+                        <span class="badge bg-primary fs-4 px-4 py-3 fw-bold mb-3 d-block">2025-Aujourd'hui</span>
+                        <i class="fas fa-graduation-cap fa-4x text-primary" style="text-shadow: none;"></i>
+                    </div>
+                    <div class="col-md-10 col-9">
+                        <h4 class="fw-bold mb-3" style="color: #222; font-size: 1.4rem;">Formation Multimédia IUT Douala</h4>
+                        <p class="fs-5 lh-lg" style="color: #444; line-height: 1.8;">Spécialisation Design Graphique - Institut Universitaire de Technologie de Douala</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.timeline-item mb-5 p-4 glass rounded" style="background: rgba(255,255,255,0.9); color: #333;">
+                <div class="row align-items-center">
+<div class="col-md-12 text-center mb-4">
+                        <span class="badge bg-success fs-4 px-4 py-3 fw-bold mb-3 d-block">2026-Aujourd'hui</span>
+                        <i class="fas fa-briefcase fa-4x text-success" style="text-shadow: none;"></i>
+                    </div>
+                    <div class="col-md-10 col-9">
+                        <h4 class="fw-bold mb-3" style="color: #222; font-size: 1.4rem;">Stage Capsule Media Consulting</h4>
+                        <p class="fs-5 lh-lg" style="color: #444; line-height: 1.8;">Création visuels marketing et réseaux sociaux - Projets professionnels réels</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Ce que disent mes clients</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active typewriter-container" data-aos="zoom-in">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center position-relative">
+                            <div class="floating-avatar">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face&round=50" class="rounded-circle avatar-float shadow-lg" alt="Sophie M.">
+                            </div>
+                            <div class="typewriter-text"></div>
+                            <h5 class="mt-3 fw-bold">Sophie M., Client PME</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+"Professionnel et ponctuel. Bon travail."
+                            <h5>Paul K., Client Événementiel</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <p class="lead fs-4">"Bons visuels pour ma boutique, clients apprécient."</p>
+                            <h5>Jean P., Commerçant habillement</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+"Bon rapport qualité-prix. Satisfait."
+                            <h5>Marc D., Entrepreneur</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <p class="lead fs-4">"Flyers clairs pour mon restaurant, bonne présentation."</p>
+                            <h5>Michel R., Restaurateur</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-5" data-aos="fade-up">Contactez-moi</h2>
+                <form id="contactForm" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Votre nom" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" placeholder="Sujet">
+                        </div>
+                        <div class="col-12">
+                            <textarea class="form-control" rows="5" placeholder="Votre message..." required></textarea>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-custom btn-lg px-5">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="row mt-5">
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                <h5>thegraphist9@gmail.com</h5>
+            </div>
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="300">
+                <i class="fab fa-whatsapp fa-2x text-success mb-3"></i>
+                <h5>+237 690 97 42 29</h5>
+            </div>
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="social-links">
+                    <a href="#" class="text-decoration-none me-3"><i class="fab fa-behance fa-2x text-info"></i></a>
+                    <a href="#" class="text-decoration-none me-3"><i class="fab fa-instagram fa-2x text-danger"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-2x text-primary"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>THE GRAPHIST</h5>
+                <p>Stage Capsule Media | Cameroun</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#projects" class="text-white me-3">Projets</a>
+                <a href="#skills" class="text-white me-3">Compétences</a>
+                <a href="#contact" class="text-white">Contact</a>
+            </div>
+        </div>
+        <hr class="my-4">
+        <p>&copy; 2026 THE GRAPHIST. Tous droits réservés. | <a href="#" class="text-white">Mentions Légales</a></p>
+    </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>  
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Init AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+    
+    // Navbar scroll active
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav .nav-link');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').slice(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+    
+    // Stats Counters Animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.floor(current) + '+';
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + '+';
+                }
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCounter();
+                        observer.unobserve(counter);
+                    }
+                });
+            });
+            observer.observe(counter);
+        });
+    }
+    
+    // Progress Bars Animation
+    const progressBars = document.querySelectorAll('.progress-bar');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.width = entry.target.style.width;
+            }
+        });
+    });
+    progressBars.forEach(bar => observer.observe(bar));
+    
+    // Contact Form
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+        const name = formData.get('name') || 'N/A';
+        const email = formData.get('email') || 'N/A';
+        const subject = formData.get('subject') || 'N/A';
+        const message = formData.get('message') || 'N/A';
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi...';
+        submitBtn.disabled = true;
+        
+        // WhatsApp message
+        const whatsappNumber = '237690974229';
+        const whatsappMessage = `Nouveau contact portfolio:\nNom: ${name}\nEmail: ${email}\nSujet: ${subject}\nMessage: ${message}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        // Email (opens mail client)
+        const emailSubject = encodeURIComponent(subject);
+        const emailBody = encodeURIComponent(`Nom: ${name}\nEmail: ${email}\nMessage:\n${message}`);
+        const emailUrl = `mailto:thegraphist9@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+        
+        // Open WhatsApp first
+        window.open(whatsappUrl, '_blank');
+        
+        // Then email
+        setTimeout(() => {
+            window.open(emailUrl, '_blank');
+        }, 500);
+        
+        // Reset form and UI
+        setTimeout(() => {
+            alert('✅ Message envoyé ! Vous avez ouvert WhatsApp et votre client email.');
+            contactForm.reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 1000);
+    });
+    
+    // Animate counters on scroll
+    animateCounters();
+});
+
+// Gallery image viewer
+function openImage(imageSrc) {
+    window.open(imageSrc, '_blank', 'noopener,noreferrer');
+}
+</script>
+
+</body>
+</html>
