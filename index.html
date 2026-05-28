@@ -1,1616 +1,1069 @@
-html_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Festin Royal - Restaurant Gastronomique</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --gold: #c9a96e;
-            --dark: #1a1a1a;
-            --light: #f5f0e8;
-            --white: #ffffff;
-            --overlay: rgba(26, 26, 26, 0.7);
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* ========== NAVBAR ========== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.4s ease;
-        }
-
-        .navbar.scrolled {
-            background: rgba(26, 26, 26, 0.95);
-            padding: 15px 50px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--gold);
-            font-weight: 700;
-            text-decoration: none;
-            opacity: 0;
-            animation: fadeInLeft 1s ease forwards;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 0.95rem;
-            position: relative;
-            opacity: 0;
-            animation: fadeInDown 1s ease forwards;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-
-        /* ========== HERO SECTION ========== */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(var(--overlay), var(--overlay)),
-                        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            z-index: 2;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        .hero-title {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.7s forwards;
-        }
-
-        .hero-desc {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.9s forwards;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background: var(--gold);
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1.1s forwards;
-            cursor: pointer;
-            border: none;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.4);
-        }
-
-        /* Floating particles */
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite;
-        }
-
-        /* ========== ABOUT SECTION ========== */
-        .about {
-            padding: 100px 50px;
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .about-img {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.8s ease;
-        }
-
-        .about-img.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .about-img img {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .about-img:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-img::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            width: 100%;
-            height: 100%;
-            border: 3px solid var(--gold);
-            border-radius: 20px;
-            z-index: -1;
-            transition: all 0.5s ease;
-        }
-
-        .about-img:hover::before {
-            top: -10px;
-            left: -10px;
-        }
-
-        .about-content {
-            flex: 1;
-        }
-
-        .section-label {
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 25px;
-            line-height: 1.2;
-        }
-
-        .about-text {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .stats {
-            display: flex;
-            gap: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ========== MENU SECTION ========== */
-        .menu {
-            padding: 100px 50px;
-            background: var(--dark);
-            color: var(--white);
-        }
-
-        .menu-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .menu-header .section-title {
-            color: var(--white);
-        }
-
-        .menu-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .tab-btn {
-            background: none;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 12px 30px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--gold);
-            color: var(--dark);
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .menu-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .menu-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .menu-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .menu-card-title {
-            font-size: 1.3rem;
-            color: var(--white);
-        }
-
-        .menu-card-price {
-            font-size: 1.2rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        .menu-card-desc {
-            color: #aaa;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .menu-card-tags {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .tag {
-            background: rgba(201, 169, 110, 0.2);
-            color: var(--gold);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-        }
-
-        /* ========== GALLERY SECTION ========== */
-        .gallery {
-            padding: 100px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .gallery-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 250px);
-            gap: 15px;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s ease;
-        }
-
-        .gallery-item.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-        .gallery-item:nth-child(4) { grid-column: span 2; }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: var(--white);
-            transform: translateY(100%);
-            transition: transform 0.4s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-
-        /* ========== RESERVATION SECTION ========== */
-        .reservation {
-            padding: 100px 50px;
-            background: linear-gradient(var(--overlay), var(--overlay)),
-                        url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920') center/cover fixed;
-            color: var(--white);
-            text-align: center;
-        }
-
-        .reservation-form {
-            max-width: 800px;
-            margin: 50px auto 0;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .form-group {
-            position: relative;
-        }
-
-        .form-group.full {
-            grid-column: span 2;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: var(--white);
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--gold);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .form-group select option {
-            background: var(--dark);
-            color: var(--white);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .reservation .btn {
-            grid-column: span 2;
-            justify-self: center;
-            margin-top: 20px;
-        }
-
-        /* ========== TESTIMONIALS ========== */
-        .testimonials {
-            padding: 100px 50px;
-            background: var(--light);
-        }
-
-        .testimonials-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .testimonial-slider {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonial-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .testimonial-card {
-            min-width: 100%;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .testimonial-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-style: italic;
-            color: var(--dark);
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .testimonial-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--gold);
-        }
-
-        .testimonial-info h4 {
-            font-size: 1.1rem;
-            color: var(--dark);
-        }
-
-        .testimonial-info p {
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .testimonial-stars {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--gold);
-            transform: scale(1.2);
-        }
-
-        /* ========== FOOTER ========== */
-        .footer {
-            background: var(--dark);
-            color: var(--white);
-            padding: 80px 50px 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto 60px;
-        }
-
-        .footer-brand h3 {
-            font-size: 1.8rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-        }
-
-        .footer-brand p {
-            color: #aaa;
-            line-height: 1.8;
-            font-size: 0.9rem;
-        }
-
-        .footer-links h4 {
-            color: var(--gold);
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .footer-links a:hover {
-            color: var(--gold);
-        }
-
-        .footer-contact p {
-            color: #aaa;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background: var(--gold);
-            color: var(--dark);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            text-align: center;
-            color: #888;
-            font-size: 0.85rem;
-        }
-
-        /* ========== SCROLL TO TOP ========== */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark);
-            text-decoration: none;
-            font-size: 1.2rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-            cursor: pointer;
-            border: none;
-        }
-
-        .scroll-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(201, 169, 110, 0.4);
-        }
-
-        /* ========== LOADING SCREEN ========== */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-content {
-            text-align: center;
-        }
-
-        .loader-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-        }
-
-        .loader-bar {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .loader-progress {
-            width: 0;
-            height: 100%;
-            background: var(--gold);
-            animation: loadProgress 2s ease forwards;
-        }
-
-        /* ========== ANIMATIONS ========== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(10px) translateX(-10px);
-            }
-            75% {
-                transform: translateY(-10px) translateX(5px);
-            }
-        }
-
-        @keyframes loadProgress {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 992px) {
-            .about {
-                flex-direction: column;
-            }
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 200px);
-            }
-            .gallery-item:nth-child(1) {
-                grid-column: span 2;
-                grid-row: span 1;
-            }
-            .gallery-item:nth-child(4) {
-                grid-column: span 1;
-            }
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 20px;
-            }
-            .nav-links {
-                display: none;
-            }
-            .hero-title {
-                font-size: 3rem;
-            }
-            .about, .menu, .gallery, .testimonials, .reservation {
-                padding: 60px 20px;
-            }
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(5, 200px);
-            }
-            .gallery-item:nth-child(1) {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-            .reservation-form {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full {
-                grid-column: span 1;
-            }
-            .reservation .btn {
-                grid-column: span 1;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .footer-social {
-                justify-content: center;
-            }
-            .stats {
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE GRAPHIST - Portfolio Design Graphique | Stage Capsule Media</title>
+<meta name="description" content="Portfolio de Junior - Designer graphique | Stage chez Capsule Media Consulting - visuels marketing et réseaux sociaux">
+<meta name="keywords" content="design graphique, portfolio, Capsule Media, réseaux sociaux, Cameroun">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- AOS Animations -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    scroll-behavior: smooth;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    background-attachment: fixed;
+    position: relative;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.15) 0%, transparent 50%);
+    background-size: 400px 400px, 600px 600px, 500px 500px;
+    animation: bgShift 20s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes bgShift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, 30px) scale(1.1); }
+    100% { transform: translate(-30px, 50px) scale(1.05); }
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='40' cy='40' r='1'/%3E%3Ccircle cx='20' cy='20' r='0.5'/%3E%3Ccircle cx='60' cy='60' r='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 80px 80px;
+    animation: starsFloat 25s linear infinite;
+    z-index: -1;
+}
+
+@keyframes starsFloat {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+/* Amélioration lisibilité texte sur fond futuriste */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+}
+
+p, .lead, .nav-link, .btn {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.card, .glass {
+    background: rgba(255,255,255,0.95) !important;
+    color: #333 !important;
+}
+
+.bg-primary, .btn-primary {
+    --bs-btn-bg: linear-gradient(45deg, #667eea, #764ba2) !important;
+}
+
+.navbar {
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.navbar.scrolled {
+    background: rgba(0,0,0,0.95);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
+}
+
+.navbar.scrolled {
+    background: rgba(0,0,0,0.9);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hero Gradient */
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+}
+
+/* Profile Image */
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    margin-bottom: 2rem;
+}
+
+/* Cards Hover */
+.card {
+    transition: all 0.4s ease;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.project img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* Progress Bars */
+.progress {
+    height: 10px;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 2s ease;
+}
+
+/* Buttons */
+.btn-custom {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+    color: white;
+}
+
+/* Stats Counters */
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+}
+
+/* Gallery Styles */
+.gallery-thumb {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gallery-thumb:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-content">
-            <div class="loader-text">Le Festin Royal</div>
-            <div class="loader-bar">
-                <div class="loader-progress"></div>
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<div class="container">
+<a class="navbar-brand" href="#">THE GRAPHIST</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#about">À propos</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#projects">Projets</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#contact">Contact</a>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero text-center" data-aos="fade-up" data-aos-duration="1000">
+<div class="container">
+    
+    <!-- Profile Image -->
+    <img src="./photo perso/WhatsApp Image 2026-04-12 at 14.44.41.jpeg" 
+         alt="Junior - Designer Graphique" class="profile-img" data-aos="zoom-in" data-aos-delay="200">
+    
+    <h1 class="display-4 fw-bold mb-4" data-aos="fade-down" data-aos-delay="500">NGANG PONGOH PHILIPPE EMMANUEL</h1>
+    
+    <p class="h2 fw-bold mb-2" data-aos="fade-up" data-aos-delay="600">Designer Graphique Freelance</p>
+    <p class="lead fs-4 mb-5 px-4" data-aos="fade-up" data-aos-delay="700">
+        📍 Étudiant Camerounais - Institut Universitaire de technologie de DOUALA
+    </p>
+
+    <div data-aos="fade-up" data-aos-delay="900">
+        <a href="#projects" class="btn btn-light btn-lg me-3 px-5">
+            👁️ Voir mes projets
+        </a>
+        <a href="#contact" class="btn btn-outline-light btn-lg px-5">
+            📩 Contact
+        </a>
+    </div>
+
+</div>
+</section>
+
+<!-- STATS COUNTERS -->
+<section id="stats" class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3" data-aos="fade-up">
+                <div class="stat-number" data-target="50">0</div>
+                <h5>Projets Réalisés</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-target="2">0</div>
+                <h5>Années d'Expérience</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number" data-target="15">0</div>
+                <h5>Clients Satisfaits</h5>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="600">
+                <div class="stat-number" data-target="1000">0</div>
+                <h5>Heures de Design</h5>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar">
-        <a href="#" class="logo">Le Festin Royal</a>
-        <ul class="nav-links">
-            <li><a href="#accueil">Accueil</a></li>
-            <li><a href="#about">À Propos</a></li>
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#galerie">Galerie</a></li>
-            <li><a href="#reservation">Réservation</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+<!-- ABOUT ENHANCED -->
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&fit=crop" 
+                     alt="Junior au travail" class="img-fluid rounded shadow" style="height: 400px; object-fit: cover;">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2>À propos de moi</h2>
+                <p class="lead">
+                    Étudiant passionné par le <strong>design graphique</strong> et le marketing digital basé au Cameroun.
+                </p>
+                <p>
+                    J'ai effectué un stage chez <strong>Capsule Media Consulting</strong> où j'ai créé des visuels impactants pour les campagnes marketing, 
+                    les réseaux sociaux et l'identité visuelle des entreprises. Mon objectif : transformer vos idées en visuels qui convertissent !
+                </p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-primary me-2"></i>Spécialiste réseaux sociaux</li>
+                    <li><i class="fas fa-check text-primary me-2"></i>Flyers & affiches marketing</li>
 
-    <!-- Hero Section -->
-    <section class="hero" id="accueil">
-        <div class="particle" style="top:20%;left:10%;animation-delay:0s;"></div>
-        <div class="particle" style="top:60%;left:80%;animation-delay:2s;"></div>
-        <div class="particle" style="top:40%;left:50%;animation-delay:4s;"></div>
-        <div class="particle" style="top:80%;left:20%;animation-delay:6s;"></div>
-        <div class="particle" style="top:30%;left:70%;animation-delay:8s;"></div>
-        <div class="particle" style="top:70%;left:40%;animation-delay:10s;"></div>
-        
-        <div class="hero-content">
-            <p class="hero-subtitle">Bienvenue chez nous</p>
-            <h1 class="hero-title">Le Festin Royal</h1>
-            <p class="hero-desc">Une expérience gastronomique unique où tradition et modernité se rencontrent pour éveiller vos sens.</p>
-            <a href="#reservation" class="btn">Réserver une table</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="about-img" id="aboutImg">
-            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Notre Chef">
-        </div>
-        <div class="about-content">
-            <p class="section-label">Notre Histoire</p>
-            <h2 class="section-title">Une Passion pour la Gastronomie</h2>
-            <p class="about-text">
-                Fondé en 2015 par le Chef Étoilé Jean-Marc Dupont, Le Festin Royal est né d'une vision : créer un lieu où chaque plat raconte une histoire. Nous sélectionnons les meilleurs produits locaux et de saison pour vous offrir une cuisine authentique et créative.
-            </p>
-            <p class="about-text">
-                Notre équipe de chefs passionnés travaille chaque jour avec amour et précision pour sublimer les saveurs et créer des moments inoubliables autour de la table.
-            </p>
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number" data-target="8">0</div>
-                    <div class="stat-label">Années d'expérience</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="50">0</div>
-                    <div class="stat-label">Plats signature</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="12000">0</div>
-                    <div class="stat-label">Clients satisfaits</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu Section -->
-    <section class="menu" id="menu">
-        <div class="menu-header">
-            <p class="section-label">Notre Carte</p>
-            <h2 class="section-title">Menu Gastronomique</h2>
-        </div>
-        
-        <div class="menu-tabs">
-            <button class="tab-btn active" data-tab="entrees">Entrées</button>
-            <button class="tab-btn" data-tab="plats">Plats</button>
-            <button class="tab-btn" data-tab="desserts">Desserts</button>
-            <button class="tab-btn" data-tab="boissons">Boissons</button>
-        </div>
-
-        <div class="menu-content">
-            <!-- Entrées -->
-            <div class="menu-panel active" id="entrees">
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Tartare de Saumon</h3>
-                            <span class="menu-card-price">18 €</span>
-                        </div>
-                        <p class="menu-card-desc">Saumon frais d'Écosse, avocat, citron vert, coriandre et huile d'olive extra vierge</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Frais</span>
-                            <span class="tag">Sans gluten</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Foie Gras Maison</h3>
-                            <span class="menu-card-price">24 €</span>
-                        </div>
-                        <p class="menu-card-desc">Foie gras mi-cuit, chutney de figues, pain brioché toasté</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Signature</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Burrata & Tomates</h3>
-                            <span class="menu-card-price">16 €</span>
-                        </div>
-                        <p class="menu-card-desc">Burrata crémeuse, tomates anciennes, basilic frais, pesto maison</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Végétarien</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Carpaccio de Saint-Jacques</h3>
-                            <span class="menu-card-price">22 €</span>
-                        </div>
-                        <p class="menu-card-desc">Saint-Jacques crues, huile de truffe, copeaux de parmesan, roquette</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Gourmet</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Plats -->
-            <div class="menu-panel" id="plats" style="display:none;">
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Filet de Bœuf Rossini</h3>
-                            <span class="menu-card-price">38 €</span>
-                        </div>
-                        <p class="menu-card-desc">Filet de bœuf Angus, foie gras poêlé, sauce aux truffes, purée de céleri</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Signature</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Risotto aux Fruits de Mer</h3>
-                            <span class="menu-card-price">32 €</span>
-                        </div>
-                        <p class="menu-card-desc">Riz Arborio crémeux, gambas, Saint-Jacques, moules, safran</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Populaire</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Magret de Canard</h3>
-                            <span class="menu-card-price">29 €</span>
-                        </div>
-                        <p class="menu-card-desc">Magret rôti, sauce au miel et thym, gratin dauphinois</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Tradition</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Pavé de Saumon</h3>
-                            <span class="menu-card-price">26 €</span>
-                        </div>
-                        <p class="menu-card-desc">Saumon grillé, sauce beurre blanc, légumes de saison rôtis</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Léger</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Desserts -->
-            <div class="menu-panel" id="desserts" style="display:none;">
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Tiramisu Maison</h3>
-                            <span class="menu-card-price">12 €</span>
-                        </div>
-                        <p class="menu-card-desc">Mascarpone crémeux, café espresso, cacao amer, biscuits savoiardi</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Classique</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Fondant au Chocolat</h3>
-                            <span class="menu-card-price">14 €</span>
-                        </div>
-                        <p class="menu-card-desc">Chocolat noir 70%, cœur coulant, glace vanille bourbon</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Indispensable</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Crème Brûlée</h3>
-                            <span class="menu-card-price">11 €</span>
-                        </div>
-                        <p class="menu-card-desc">Vanille de Madagascar, caramel craquant, framboises fraîches</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Tradition</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Tarte Tatin</h3>
-                            <span class="menu-card-price">13 €</span>
-                        </div>
-                        <p class="menu-card-desc">Pommes caramélisées, pâte feuilletée croustillante, crème fraîche</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Maison</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Boissons -->
-            <div class="menu-panel" id="boissons" style="display:none;">
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Cocktail Royal</h3>
-                            <span class="menu-card-price">14 €</span>
-                        </div>
-                        <p class="menu-card-desc">Champagne, liqueur de fraise, jus de citron vert, menthe fraîche</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Signature</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Vin Rouge Bordeaux</h3>
-                            <span class="menu-card-price">8 €</span>
-                        </div>
-                        <p class="menu-card-desc">Château Margaux 2018, notes de cassis et de vanille</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Au verre</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Limonade Maison</h3>
-                            <span class="menu-card-price">6 €</span>
-                        </div>
-                        <p class="menu-card-desc">Citron pressé, eau pétillante, sirop de sucre de canne, menthe</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Sans alcool</span>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">Café Gourmand</h3>
-                            <span class="menu-card-price">9 €</span>
-                        </div>
-                        <p class="menu-card-desc">Espresso, mini-desserts assortis, chocolat chaud</p>
-                        <div class="menu-card-tags">
-                            <span class="tag">Gourmand</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="galerie">
-        <div class="gallery-header">
-            <p class="section-label">Notre Ambiance</p>
-            <h2 class="section-title">Galerie</h2>
-        </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800" alt="Restaurant">
-                <div class="gallery-overlay">
-                    <h3>Notre Salle Principale</h3>
-                    <p>Un cadre élégant et chaleureux</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600" alt="Plat">
-                <div class="gallery-overlay">
-                    <h3>Plat Signature</h3>
-                    <p>Filet de bœuf Rossini</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600" alt="Cuisine">
-                <div class="gallery-overlay">
-                    <h3>Notre Cuisine</h3>
-                    <p>Où la magie opère</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800" alt="Bar">
-                <div class="gallery-overlay">
-                    <h3>Le Bar</h3>
-                    <p>Cocktails artisanaux</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600" alt="Dessert">
-                <div class="gallery-overlay">
-                    <h3>Dessert du Jour</h3>
-                    <p>Fondant au chocolat</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reservation Section -->
-    <section class="reservation" id="reservation">
-        <p class="section-label">Réservez votre table</p>
-        <h2 class="section-title">Réservation</h2>
-        <p style="max-width: 600px; margin: 20px auto 0; opacity: 0.9;">
-            Réservez dès maintenant pour vivre une expérience gastronomique inoubliable. Nous vous garantissons une table dans un cadre exceptionnel.
-        </p>
-        
-        <form class="reservation-form" id="reservationForm">
-            <div class="form-group">
-                <input type="text" placeholder="Votre nom" required>
-            </div>
-            <div class="form-group">
-                <input type="email" placeholder="Votre email" required>
-            </div>
-            <div class="form-group">
-                <input type="tel" placeholder="Téléphone" required>
-            </div>
-            <div class="form-group">
-                <input type="date" required>
-            </div>
-            <div class="form-group">
-                <select required>
-                    <option value="">Nombre de personnes</option>
-                    <option value="1">1 personne</option>
-                    <option value="2">2 personnes</option>
-                    <option value="3">3 personnes</option>
-                    <option value="4">4 personnes</option>
-                    <option value="5">5 personnes</option>
-                    <option value="6+">6 personnes et +</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <select required>
-                    <option value="">Heure</option>
-                    <option value="12h">12h00</option>
-                    <option value="12h30">12h30</option>
-                    <option value="13h">13h00</option>
-                    <option value="19h">19h00</option>
-                    <option value="19h30">19h30</option>
-                    <option value="20h">20h00</option>
-                    <option value="20h30">20h30</option>
-                    <option value="21h">21h00</option>
-                </select>
-            </div>
-            <div class="form-group full">
-                <textarea placeholder="Demandes spéciales (allergies, occasion spéciale...)"></textarea>
-            </div>
-            <button type="submit" class="btn">Confirmer la réservation</button>
-        </form>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials" id="avis">
-        <div class="testimonials-header">
-            <p class="section-label">Témoignages</p>
-            <h2 class="section-title">Ce que disent nos clients</h2>
-        </div>
-        
-        <div class="testimonial-slider">
-            <div class="testimonial-track" id="testimonialTrack">
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Une expérience gastronomique exceptionnelle. Le filet de bœuf Rossini est tout simplement divin. Le service est impeccable et l'ambiance est parfaite pour une soirée romantique."</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Marie" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>Marie Dubois</h4>
-                            <p>Cliente régulière depuis 2020</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"J'ai célébré mon anniversaire ici avec mes amis et c'était magique. Le staff a même préparé une surprise avec un gâteau personnalisé. Merci pour ce moment inoubliable !"</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Thomas" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>Thomas Martin</h4>
-                            <p>Venu pour son anniversaire</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"En tant que critique gastronomique, je suis difficile à impressionner. Mais Le Festin Royal a réussi. La créativité des plats, la qualité des produits, tout est au top."</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Sophie" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>Sophie Bernard</h4>
-                            <p>Critique gastronomique</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="slider-dots" id="sliderDots">
-                <span class="dot active" data-slide="0"></span>
-                <span class="dot" data-slide="1"></span>
-                <span class="dot" data-slide="2"></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer" id="contact">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>Le Festin Royal</h3>
-                <p>Une expérience gastronomique unique depuis 2015. Nous vous accueillons dans un cadre élégant pour des moments de dégustation inoubliables.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-icon">f</a>
-                    <a href="#" class="social-icon">in</a>
-                    <a href="#" class="social-icon">ig</a>
-                    <a href="#" class="social-icon">tw</a>
-                </div>
-            </div>
-            <div class="footer-links">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="#accueil">Accueil</a></li>
-                    <li><a href="#about">À Propos</a></li>
-                    <li><a href="#menu">Menu</a></li>
-                    <li><a href="#galerie">Galerie</a></li>
-                    <li><a href="#reservation">Réservation</a></li>
                 </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Horaires</h4>
-                <ul>
-                    <li><a href="#">Lundi - Vendredi : 12h - 14h30 / 19h - 23h</a></li>
-                    <li><a href="#">Samedi : 12h - 15h / 19h - 23h30</a></li>
-                    <li><a href="#">Dimanche : 12h - 15h</a></li>
-                    <li><a href="#">Fermé certains jours fériés</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>Contact</h4>
-                <p>📍 123 Avenue des Champs-Élysées, Paris 75008</p>
-                <p>📞 +33 1 23 45 67 89</p>
-                <p>✉️ contact@lefestinroyal.fr</p>
-                <p>🌐 www.lefestinroyal.fr</p>
+                <a href="#contact" class="btn btn-custom btn-lg mt-3">Travaillons ensemble !</a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Le Festin Royal. Tous droits réservés. | Conçu avec passion pour l'excellence gastronomique.</p>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="py-5 bg-gradient" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Mes Compétences</h2>
+        
+<!-- SVG Animated Skills -->
+<style>
+.skill-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(#dc3545 var(--p, 0%), transparent 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+.skill-circle::after {
+  content: '';
+  width: 110px;
+  height: 110px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+}
+.skill-circle span {
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.skill-ring {
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 2s ease;
+  fill: none;
+  stroke-width: 8;
+}
+.animate-ring {
+  stroke-dashoffset: 0;
+}
+</style>
+
+        <div class="row g-4">
+            <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                <svg class="skill-circle-svg" viewBox="0 0 100 100">
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#dc3545"/>
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#ffc107" stroke-dashoffset="63"/>
+                </svg>
+                <h5><i class="fab fa-photoshop text-danger me-2"></i>Photoshop</h5>
+                <span class="badge bg-danger">90%</span>
+            </div>
+            
+            <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="200">
+                <svg class="skill-circle-svg" viewBox="0 0 100 100">
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#17a2b8"/>
+                  <circle class="skill-ring" cx="50" cy="50" r="40" stroke="#ffc107" stroke-dashoffset="100.8"/>
+                </svg>
+                <h5><i class="fab fa-adobe text-info me-2"></i>Illustrator</h5>
+                <span class="badge bg-info">80%</span>
+            </div>
         </div>
-    </footer>
 
-    <!-- Scroll to Top Button -->
-    <button class="scroll-top" id="scrollTop">↑</button>
-
-    <!-- JavaScript -->
-    <script>
-        // ========== LOADING SCREEN ==========
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2000);
-        });
-
-        // ========== NAVBAR SCROLL EFFECT ==========
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // ========== SMOOTH SCROLL ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // ========== SCROLL ANIMATIONS (Intersection Observer) ==========
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+        <script>
+          const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    
-                    // Animate stats numbers
-                    if (entry.target.querySelector('.stat-number')) {
-                        animateStats(entry.target);
-                    }
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.about-img, .menu-card, .gallery-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Also observe the about section for stats
-        observer.observe(document.querySelector('.about'));
-
-        // ========== STATS COUNTER ANIMATION ==========
-        function animateStats(container) {
-            const stats = container.querySelectorAll('.stat-number');
-            stats.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        stat.textContent = target.toLocaleString();
-                        clearInterval(timer);
-                    } else {
-                        stat.textContent = Math.floor(current).toLocaleString();
-                    }
-                }, 16);
-            });
-        }
-
-        // ========== MENU TABS ==========
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const menuPanels = document.querySelectorAll('.menu-panel');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                tabBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Hide all panels
-                menuPanels.forEach(panel => {
-                    panel.style.display = 'none';
-                    panel.querySelectorAll('.menu-card').forEach(card => {
-                        card.classList.remove('visible');
-                    });
+              if (entry.isIntersecting) {
+                const rings = entry.target.querySelectorAll('.skill-ring');
+                rings.forEach((ring, index) => {
+                  setTimeout(() => ring.classList.add('animate-ring'), index * 200);
                 });
-                
-                // Show selected panel
-                const targetPanel = document.getElementById(this.getAttribute('data-tab'));
-                targetPanel.style.display = 'block';
-                
-                // Animate cards in the new panel
-                setTimeout(() => {
-                    targetPanel.querySelectorAll('.menu-card').forEach((card, index) => {
-                        setTimeout(() => {
-                            card.classList.add('visible');
-                        }, index * 100);
-                    });
-                }, 50);
+              }
             });
-        });
+          });
+          document.querySelectorAll('.col-lg-6.text-center').forEach(col => observer.observe(col));
+        </script>
+    </div>
+</section>
 
-        // Animate initial menu cards
-        setTimeout(() => {
-            document.querySelectorAll('#entrees .menu-card').forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('visible');
-                }, index * 100);
-            });
-        }, 2500);
 
-        // ========== TESTIMONIAL SLIDER ==========
-        const track = document.getElementById('testimonialTrack');
-        const dots = document.querySelectorAll('.dot');
-        let currentSlide = 0;
-        const totalSlides = 3;
-
-        function goToSlide(index) {
-            currentSlide = index;
-            track.style.transform = `translateX(-${index * 100}%)`;
-            
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => goToSlide(index));
-        });
-
-        // Auto-slide
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            goToSlide(currentSlide);
-        }, 5000);
-
-        // ========== SCROLL TO TOP BUTTON ==========
-        const scrollTopBtn = document.getElementById('scrollTop');
+<!-- SERVICES -->
+<section id="services" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Mes Services</h2>
         
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 500) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
+        <div class="row g-4">
+            <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-palette fa-3x text-primary mb-3"></i>
+                        <h5>Design Graphique</h5>
+                        <p>Création de flyers, affiches pour vos business</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-share-alt fa-3x text-success mb-3"></i>
+                        <h5>Visuels Réseaux Sociaux</h5>
+                        <p>Posts Instagram, Facebook optimisés</p>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Masonry + Lightbox Gallery -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css?v=5.0">
+<script src="https://cdn.jsdelivr.net/npm/isotope-layout@3.0.6/dist/isotope.pkgd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<style>
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+.portfolio-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+.portfolio-item:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+}
+.portfolio-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.portfolio-item:hover .portfolio-img {
+  transform: scale(1.1);
+}
+.portfolio-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(102,126,234,0.9), rgba(118,75,162,0.9));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portfolio-item:hover .portfolio-overlay {
+  opacity: 1;
+}
+.portfolio-title {
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+.filter-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 25px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-btn.active, .filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+}
+</style>
+
+        <div class="filters mb-5 text-center">
+          <button class="filter-btn active" data-filter="*">Tout</button>
+          <button class="filter-btn" data-filter=".facebook">Facebook</button>
+          <button class="filter-btn" data-filter=".instagram">Instagram</button>
+          <button class="filter-btn" data-filter=".linkedin">LinkedIn</button>
+          <button class="filter-btn" data-filter=".flyers">Flyers</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid">
+          <!-- Facebook -->
+          <div class="portfolio-item facebook">
+            <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png" class="portfolio-img" data-fancybox="gallery" data-caption="Flyer Corporate Bleu Jaune">
+            <div class="portfolio-overlay">
+              <h5 class="portfolio-title">Flyer Corporate</h5>
+            </div>
+          </div>
+          <div class="portfolio-item facebook">
+            <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="portfolio-img" data-fancybox="gallery" data-caption="Flyer Marketing Jaune Bleu Blanc">
+            <div class="portfolio-overlay">
+              <h5 class="portfolio-title">Marketing Flyer</h5>
+            </div>
+          </div>
+          <!-- Add more items similarly for all images -->
+        </div>
+
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+  // Masonry Layout
+  var $grid = $('#portfolioGrid').isotope({
+    itemSelector: '.portfolio-item',
+    layoutMode: 'masonry',
+    masonry: {
+      columnWidth: '.portfolio-item',
+      gutter: 20
+    }
+  });
+
+  // Filter buttons
+  $('.filter-btn').on('click', function() {
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+    var filterValue = $(this).attr('data-filter');
+    $grid.isotope({ filter: filterValue });
+  });
+
+  // Fancybox init
+  Fancybox.bind('[data-fancybox]', {});
+});
+</script>
+
+    <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+<h2>Mes Différents Projets</h2>
+        </div>
+
+        <!-- Portfolio Tabs -->
+        <ul class="nav nav-pills nav-fill mb-4 justify-content-center" id="projectTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="facebook-tab" data-bs-toggle="pill" data-bs-target="#facebook" type="button" role="tab">📘 Visuels Facebook</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="instagram-tab" data-bs-toggle="pill" data-bs-target="#instagram" type="button" role="tab">📷 Visuels Instagram</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="linkedin-tab" data-bs-toggle="pill" data-bs-target="#linkedin" type="button" role="tab">💼 Posts LinkedIn</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="evenement-tab" data-bs-toggle="pill" data-bs-target="#evenement" type="button" role="tab">🎉 Affiches Événement</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="flyers-tab" data-bs-toggle="pill" data-bs-target="#flyers" type="button" role="tab">📄 Flyers Promotionnels</button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="projectTabContent">
+          <!-- Visuels Facebook -->
+          <div class="tab-pane fade show active" id="facebook" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 1" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 2" onclick="openImage('./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 3" onclick="openImage('./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 4" onclick="openImage('./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png2.png" class="img-fluid rounded shadow gallery-thumb" alt="Facebook Flyer 5" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Corporate Marketing Agency Flyer.png2.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Visuels Instagram -->
+          <div class="tab-pane fade" id="instagram" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum Chanel.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 1" onclick="openImage('./dossier visuels instagram/parfum Chanel.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum png.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 2" onclick="openImage('./dossier visuels instagram/parfum png.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/sac1.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 3" onclick="openImage('./dossier visuels instagram/sac1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel shake.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 4" onclick="openImage('./dossier visuels instagram/visuel shake.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel PORSCHE.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 5" onclick="openImage('./dossier visuels instagram/visuel PORSCHE.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/vsuel casque-1.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 6" onclick="openImage('./dossier visuels instagram/vsuel casque-1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/visuel NIKE.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 7" onclick="openImage('./dossier visuels instagram/visuel NIKE.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/Sans titre-1.png2.png" class="img-fluid rounded shadow gallery-thumb" alt="Instagram 8" onclick="openImage('./dossier visuels instagram/Sans titre-1.png2.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Posts LinkedIn -->
+          <div class="tab-pane fade" id="linkedin" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow and Black Modern Digital Marketing Agency Instagram Post.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 1" onclick="openImage('./dossiers visuels capsule media/Yellow and Black Modern Digital Marketing Agency Instagram Post.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and White Modern Plumbing Company Services Instagram Post .png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 2" onclick="openImage('./dossiers visuels capsule media/Blue and White Modern Plumbing Company Services Instagram Post .png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Red Modern Business Agency Instagram Story.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 3" onclick="openImage('./dossiers visuels capsule media/Red Modern Business Agency Instagram Story.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="LinkedIn 4" onclick="openImage('./dossiers visuels capsule media/Yellow Blue and White Corporate Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Affiches Événement -->
+          <div class="tab-pane fade" id="evenement" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/parfum Chanel.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 1" onclick="openImage('./dossier visuels instagram/parfum Chanel.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/sac1.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 2" onclick="openImage('./dossier visuels instagram/sac1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossier visuels instagram/vsuel casque-1.png" class="img-fluid rounded shadow gallery-thumb" alt="Événement 3" onclick="openImage('./dossier visuels instagram/vsuel casque-1.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Flyers Promotionnels -->
+          <div class="tab-pane fade" id="flyers" role="tabpanel">
+            <div class="row g-3">
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 1" onclick="openImage('./dossiers visuels capsule media/Black and Orange Digital Marketing Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 2" onclick="openImage('./dossiers visuels capsule media/Blue & Orange Minimalist Company Profile Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Yellow and Blue Modern Cleaning Services Poster.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 3" onclick="openImage('./dossiers visuels capsule media/Yellow and Blue Modern Cleaning Services Poster.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue and Yellow Modern Cleaning Service Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 4" onclick="openImage('./dossiers visuels capsule media/Blue and Yellow Modern Cleaning Service Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+              <div class="col-md-4 col-sm-6 mb-3">
+                <img src="./dossiers visuels capsule media/Blue And White Modern Cleaning Service Flyer.png" class="img-fluid rounded shadow gallery-thumb" alt="Flyer 5" onclick="openImage('./dossiers visuels capsule media/Blue And White Modern Cleaning Service Flyer.png')" style="cursor:pointer;height:200px;object-fit:cover;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience" class="py-5" style="background: rgba(255,255,255,0.98);">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold" data-aos="fade-up" style="color: #333; text-shadow: none;">Mon Parcours</h2>
+        <div class="timeline position-relative" data-aos="fade-up" style="padding-left: 40px;">
+            <div class="timeline-item mb-5 p-4 glass rounded" style="background: rgba(255,255,255,0.9); color: #333;">
+                <div class="row align-items-center">
+<div class="col-md-12 text-center mb-4">
+                        <span class="badge bg-primary fs-4 px-4 py-3 fw-bold mb-3 d-block">2025-Aujourd'hui</span>
+                        <i class="fas fa-graduation-cap fa-4x text-primary" style="text-shadow: none;"></i>
+                    </div>
+                    <div class="col-md-10 col-9">
+                        <h4 class="fw-bold mb-3" style="color: #222; font-size: 1.4rem;">Formation Multimédia IUT Douala</h4>
+                        <p class="fs-5 lh-lg" style="color: #444; line-height: 1.8;">Spécialisation Design Graphique - Institut Universitaire de Technologie de Douala</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.timeline-item mb-5 p-4 glass rounded" style="background: rgba(255,255,255,0.9); color: #333;">
+                <div class="row align-items-center">
+<div class="col-md-12 text-center mb-4">
+                        <span class="badge bg-success fs-4 px-4 py-3 fw-bold mb-3 d-block">2026-Aujourd'hui</span>
+                        <i class="fas fa-briefcase fa-4x text-success" style="text-shadow: none;"></i>
+                    </div>
+                    <div class="col-md-10 col-9">
+                        <h4 class="fw-bold mb-3" style="color: #222; font-size: 1.4rem;">Stage Capsule Media Consulting</h4>
+                        <p class="fs-5 lh-lg" style="color: #444; line-height: 1.8;">Création visuels marketing et réseaux sociaux - Projets professionnels réels</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Ce que disent mes clients</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active typewriter-container" data-aos="zoom-in">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center position-relative">
+                            <div class="floating-avatar">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face&round=50" class="rounded-circle avatar-float shadow-lg" alt="Sophie M.">
+                            </div>
+                            <div class="typewriter-text"></div>
+                            <h5 class="mt-3 fw-bold">Sophie M., Client PME</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+"Professionnel et ponctuel. Bon travail."
+                            <h5>Paul K., Client Événementiel</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <p class="lead fs-4">"Bons visuels pour ma boutique, clients apprécient."</p>
+                            <h5>Jean P., Commerçant habillement</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+"Bon rapport qualité-prix. Satisfait."
+                            <h5>Marc D., Entrepreneur</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <p class="lead fs-4">"Flyers clairs pour mon restaurant, bonne présentation."</p>
+                            <h5>Michel R., Restaurateur</h5>
+                            <div class="rating mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-5" data-aos="fade-up">Contactez-moi</h2>
+                <form id="contactForm" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Votre nom" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" placeholder="Sujet">
+                        </div>
+                        <div class="col-12">
+                            <textarea class="form-control" rows="5" placeholder="Votre message..." required></textarea>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-custom btn-lg px-5">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="row mt-5">
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                <h5>thegraphist9@gmail.com</h5>
+            </div>
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="300">
+                <i class="fab fa-whatsapp fa-2x text-success mb-3"></i>
+                <h5>+237 690 97 42 29</h5>
+            </div>
+            <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="social-links">
+                    <a href="#" class="text-decoration-none me-3"><i class="fab fa-behance fa-2x text-info"></i></a>
+                    <a href="#" class="text-decoration-none me-3"><i class="fab fa-instagram fa-2x text-danger"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-2x text-primary"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>THE GRAPHIST</h5>
+                <p>Stage Capsule Media | Cameroun</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#projects" class="text-white me-3">Projets</a>
+                <a href="#skills" class="text-white me-3">Compétences</a>
+                <a href="#contact" class="text-white">Contact</a>
+            </div>
+        </div>
+        <hr class="my-4">
+        <p>&copy; 2026 THE GRAPHIST. Tous droits réservés. | <a href="#" class="text-white">Mentions Légales</a></p>
+    </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>  
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Init AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+    
+    // Navbar scroll active
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav .nav-link');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
             }
         });
-
-        scrollTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // ========== FORM SUBMISSION ==========
-        document.getElementById('reservationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Create a custom alert
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: var(--dark);
-                color: var(--gold);
-                padding: 40px;
-                border-radius: 20px;
-                text-align: center;
-                z-index: 10000;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-                animation: fadeInUp 0.5s ease;
-            `;
-            alertDiv.innerHTML = `
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 15px;">Réservation Confirmée !</h3>
-                <p style="color: #fff; margin-bottom: 25px;">Nous avons bien reçu votre demande. Un email de confirmation vous sera envoyé sous peu.</p>
-                <button onclick="this.parentElement.remove()" style="
-                    background: var(--gold);
-                    color: var(--dark);
-                    border: none;
-                    padding: 12px 30px;
-                    border-radius: 30px;
-                    cursor: pointer;
-                    font-family: 'Poppins', sans-serif;
-                    font-weight: 600;
-                ">Fermer</button>
-            `;
-            document.body.appendChild(alertDiv);
-            
-            this.reset();
-        });
-
-        // ========== PARALLAX EFFECT ON HERO ==========
-        window.addEventListener('scroll', function() {
-            const scrolled = window.scrollY;
-            const hero = document.querySelector('.hero');
-            if (scrolled < window.innerHeight) {
-                hero.style.backgroundPositionY = (scrolled * 0.5) + 'px';
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').slice(1) === current) {
+                link.classList.add('active');
             }
         });
-
-        // ========== GALLERY ITEMS STAGGERED ANIMATION ==========
-        const galleryObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
+    });
+    
+    // Stats Counters Animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.floor(current) + '+';
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + '+';
                 }
-            });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            galleryObserver.observe(item);
-        });
-
-        // ========== MOUSE FOLLOW EFFECT ON HERO ==========
-        document.querySelector('.hero').addEventListener('mousemove', function(e) {
-            const particles = document.querySelectorAll('.particle');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
+            };
             
-            particles.forEach((particle, index) => {
-                const speed = (index + 1) * 20;
-                const xOffset = (x - 0.5) * speed;
-                const yOffset = (y - 0.5) * speed;
-                particle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCounter();
+                        observer.unobserve(counter);
+                    }
+                });
             });
+            observer.observe(counter);
         });
-    </script>
+    }
+    
+    // Progress Bars Animation
+    const progressBars = document.querySelectorAll('.progress-bar');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.width = entry.target.style.width;
+            }
+        });
+    });
+    progressBars.forEach(bar => observer.observe(bar));
+    
+    // Contact Form
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+        const name = formData.get('name') || 'N/A';
+        const email = formData.get('email') || 'N/A';
+        const subject = formData.get('subject') || 'N/A';
+        const message = formData.get('message') || 'N/A';
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi...';
+        submitBtn.disabled = true;
+        
+        // WhatsApp message
+        const whatsappNumber = '237690974229';
+        const whatsappMessage = `Nouveau contact portfolio:\nNom: ${name}\nEmail: ${email}\nSujet: ${subject}\nMessage: ${message}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        // Email (opens mail client)
+        const emailSubject = encodeURIComponent(subject);
+        const emailBody = encodeURIComponent(`Nom: ${name}\nEmail: ${email}\nMessage:\n${message}`);
+        const emailUrl = `mailto:thegraphist9@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+        
+        // Open WhatsApp first
+        window.open(whatsappUrl, '_blank');
+        
+        // Then email
+        setTimeout(() => {
+            window.open(emailUrl, '_blank');
+        }, 500);
+        
+        // Reset form and UI
+        setTimeout(() => {
+            alert('✅ Message envoyé ! Vous avez ouvert WhatsApp et votre client email.');
+            contactForm.reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 1000);
+    });
+    
+    // Animate counters on scroll
+    animateCounters();
+});
+
+// Gallery image viewer
+function openImage(imageSrc) {
+    window.open(imageSrc, '_blank', 'noopener,noreferrer');
+}
+</script>
+
 </body>
 </html>
